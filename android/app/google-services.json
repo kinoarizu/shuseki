@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "507157517673",
+    "firebase_url": "https://goabsensi-c2366.firebaseio.com",
+    "project_id": "goabsensi-c2366",
+    "storage_bucket": "goabsensi-c2366.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:507157517673:android:f83fa08aef59840ad199f8",
+        "android_client_info": {
+          "package_name": "com.abuaziz.go_absensi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "507157517673-ifgr2n97moiqclenlrb3di94fcn1t6qn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDTYdJjuXHl-p1yEjluuGUms99Ak_AEiJQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "507157517673-ifgr2n97moiqclenlrb3di94fcn1t6qn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
