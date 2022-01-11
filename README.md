@@ -27,10 +27,6 @@ Get GoAbsensi on PlayStore <a href="https://play.google.com/store/apps/details?i
 - Firebase Cloud Firestore
 - Firebase Realtime Datebase
 - Firebase Storage
-- Firebase Crashlytics
-- Firebase Analytics
-- Firebase Cloud Messaging
-- One Signal Notification
 - Pub.dev
 
 ## Installing
