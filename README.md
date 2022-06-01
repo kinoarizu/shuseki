@@ -1,4 +1,4 @@
-# GoAbsensi
+# GoAbsensi [Maintenance Mode]
 
 [![Fork](https://img.shields.io/github/forks/abuazis/GoAbsensi?style=social)](https://github.com/abuazis/GoAbsensi/fork)&nbsp; [![Star](https://img.shields.io/github/stars/abuazis/GoAbsensi?style=social)](https://github.com/abuazis/GoAbsensi/star)&nbsp; [![Watches](https://img.shields.io/github/watchers/abuazis/GoAbsensi?style=social)](https://github.com/abuazis/GoAbsensi/)&nbsp;
 
@@ -19,16 +19,6 @@ Get GoAbsensi on PlayStore <a href="https://play.google.com/store/apps/details?i
 - Disable Multi Device - Melakukan verifikasi dengan IMEI agar sebuah akun hanya terdaftar pada satu device saja
 - Present Validation - Memastikan user melakukan presensi masuk dan pulang di jam yang sudah ditentukan dan tidak bisa menggunakan kecurangan mengatur jam device sesuai - keinginan untuk presensi di hari mendatang
 
-## Techstack
-
-- Dart
-- Flutter SDK
-- Firebase Authentication
-- Firebase Cloud Firestore
-- Firebase Realtime Datebase
-- Firebase Storage
-- Pub.dev
-
 ## Installing
 
 - git clone https://github.com/abuazis/GoAbsensi.git
@@ -42,7 +32,7 @@ Get GoAbsensi on PlayStore <a href="https://play.google.com/store/apps/details?i
 
 ## Credit
 
-Abu Azis – [@abuzaio](https://instagram.com/abuzaio) – abuazis0204@gmail.ocm
+Abu Azis – [@abuzaio](https://instagram.com/abuzaio) – abuaziscorp@gmail.com
 
 Distributed under the MIT license. See `LICENSE` for more information.
 

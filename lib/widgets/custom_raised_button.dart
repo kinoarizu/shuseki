@@ -1,4 +1,7 @@
-part of 'widgets.dart';
+import 'package:flutter/material.dart';
+
+import '../common/fonts.dart';
+import '../common/sizes.dart';
 
 class CustomRaisedButton extends StatelessWidget {
   final double width;

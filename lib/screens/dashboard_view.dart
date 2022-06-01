@@ -1,4 +1,12 @@
-part of 'screens.dart';
+import 'package:flutter/material.dart';
+
+import '../common/colors.dart';
+import '../common/fonts.dart';
+import '../common/sizes.dart';
+import '../utils/alert_dialog.dart';
+import 'check_in_screen.dart';
+import 'check_out_screen.dart';
+import 'history_screen.dart';
 
 class DashboardView extends StatelessWidget {
   @override
@@ -190,10 +198,7 @@ class _LogoutAlertComponent extends StatelessWidget {
                       "Logout",
                       style: semiWhiteFont.copyWith(fontSize: 14),
                     ),
-                    onPressed: () async {
-                      await AuthServices.logOut();
-                      Navigator.pushReplacementNamed(context, Wrapper.routeName);
-                    },
+                    onPressed: () async {},
                   ),
                 ),
               ],
@@ -208,86 +213,61 @@ class _LogoutAlertComponent extends StatelessWidget {
 class _InformationsComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Consumer<UserProvider>(
-      builder: (context, userProvider, _) {
-        if (imageFileToUpload != null) {
-          uploadImage(imageFileToUpload).then((downloadURL) {
-            imageFileToUpload = null;
-            Provider.of<UserProvider>(context, listen: false).updateUser(photoURL: downloadURL);
-          });
-        }
-
-        if (userProvider.user == null) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 18),
-            child: SpinKitFadingCircle(
-              color: whiteColor,
-              size: 50,
-            ),
-          );
-        }
-
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Selamat Beraktivitas, " + userProvider.user.name,
-              style: semiWhiteFont.copyWith(fontSize: 14),
-            ),
-            SizedBox(
-              height: 12,
-            ),
-            Container(
-              width: defaultWidth(context),
-              padding: EdgeInsets.only(
-                top: 16,
-                bottom: 8,
-                left: 25,
-                right: 25,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "Selamat Beraktivitas, Abuza",
+          style: semiWhiteFont.copyWith(fontSize: 14),
+        ),
+        SizedBox(
+          height: 12,
+        ),
+        Container(
+          width: defaultWidth(context),
+          padding: EdgeInsets.only(
+            top: 16,
+            bottom: 8,
+            left: 25,
+            right: 25,
+          ),
+          decoration: BoxDecoration(
+            color: whiteColor,
+            borderRadius: BorderRadius.circular(8),
+            boxShadow: [
+              BoxShadow(
+                color: Color(0xFFEEEEEE),
+                offset: Offset(0, 5),
               ),
-              decoration: BoxDecoration(
-                color: whiteColor,
-                borderRadius: BorderRadius.circular(8),
-                boxShadow: [
-                  BoxShadow(
-                    color: Color(0xFFEEEEEE),
-                    offset: Offset(0, 5),
-                  ),
-                ],
+            ],
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              _PresenceInfoComponent(
+                presenceType: "Hadir",
+                totalPresence: 0,
+                iconPath: 'assets/images/ic_presence.png',
               ),
-              child: Consumer<PresenceProvider>(
-                builder: (context, presenceProvider, _) {
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      _PresenceInfoComponent(
-                        presenceType: "Hadir",
-                        totalPresence: presenceProvider.presence.total,
-                        iconPath: 'assets/images/ic_presence.png',
-                      ),
-                      _PresenceInfoComponent(
-                        presenceType: "Sakit",
-                        totalPresence: presenceProvider.presence.sick,
-                        iconPath: 'assets/images/ic_sick.png',
-                      ),
-                      _PresenceInfoComponent(
-                        presenceType: "Izin",
-                        totalPresence: presenceProvider.presence.permit,
-                        iconPath: 'assets/images/ic_cuti.png',
-                      ),
-                      _PresenceInfoComponent(
-                        presenceType: "Alfa",
-                        totalPresence: presenceProvider.presence.alpha,
-                        iconPath: 'assets/images/ic_alfa.png',
-                      ),
-                    ],
-                  );
-                }
+              _PresenceInfoComponent(
+                presenceType: "Sakit",
+                totalPresence: 0,
+                iconPath: 'assets/images/ic_sick.png',
               ),
-            ),
-          ],
-        );
-      }
+              _PresenceInfoComponent(
+                presenceType: "Izin",
+                totalPresence: 0,
+                iconPath: 'assets/images/ic_cuti.png',
+              ),
+              _PresenceInfoComponent(
+                presenceType: "Alfa",
+                totalPresence: 0,
+                iconPath: 'assets/images/ic_alfa.png',
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
@@ -297,7 +277,8 @@ class _PresenceInfoComponent extends StatelessWidget {
   final String presenceType;
   final int totalPresence;
 
-  _PresenceInfoComponent({this.iconPath, this.presenceType, this.totalPresence = 0});
+  _PresenceInfoComponent(
+      {this.iconPath, this.presenceType, this.totalPresence = 0});
 
   @override
   Widget build(BuildContext context) {
@@ -369,13 +350,6 @@ class _MenuActivityComponent extends StatelessWidget {
                 Navigator.pushNamed(context, HistoryScreen.routeName);
               },
             ),
-            _MenuComponent(
-              titleMenu: "Surat Izin",
-              iconPath: 'assets/images/ic_letter.png',
-              onTap: () {
-                Navigator.pushNamed(context, PermitLetterScreen.routeName);
-              },
-            ),
           ],
         ),
       ],
@@ -389,7 +363,7 @@ class _MenuComponent extends StatelessWidget {
   final Function onTap;
 
   _MenuComponent({this.titleMenu, this.iconPath, this.onTap});
-  
+
   @override
   Widget build(BuildContext context) {
     return Material(

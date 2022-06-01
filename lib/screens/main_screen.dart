@@ -1,4 +1,10 @@
-part of 'screens.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+import '../common/colors.dart';
+import '../common/fonts.dart';
+import 'dashboard_view.dart';
+import 'presence_view.dart';
 
 class MainScreen extends StatefulWidget {
   @override
@@ -72,7 +78,16 @@ class _MainScreenState extends State<MainScreen> {
           elevation: 0,
           backgroundColor: Colors.transparent,
           unselectedItemColor: Color(0xFFE5E5E5),
+          selectedItemColor: primaryColor,
           currentIndex: bottomNavBarIndex,
+          unselectedLabelStyle: semiBlackFont.copyWith(
+            color: Color(0xFFCDCBCB),
+            fontSize: 12,
+          ),
+          selectedLabelStyle: boldBlackFont.copyWith(
+            color: primaryColor,
+            fontSize: 12,
+          ),
           onTap: (index) {
             setState(() {
               bottomNavBarIndex = index;
@@ -81,16 +96,7 @@ class _MainScreenState extends State<MainScreen> {
           },
           items: [
             BottomNavigationBarItem(
-              title: Text(
-                "Dashboard",
-                style: (bottomNavBarIndex == 0) ? boldBlackFont.copyWith(
-                  color: primaryColor,
-                  fontSize: 12,
-                ) : semiBlackFont.copyWith(
-                  color: Color(0xFFCDCBCB),
-                  fontSize: 12,
-                ),
-              ),
+              label: "Dashboard",
               icon: Container(
                 margin: EdgeInsets.only(bottom: 4),
                 height: 24,
@@ -102,16 +108,7 @@ class _MainScreenState extends State<MainScreen> {
               ),
             ),
             BottomNavigationBarItem(
-              title: Text(
-                "Kehadiran",
-                style: (bottomNavBarIndex == 1) ? boldBlackFont.copyWith(
-                  color: primaryColor,
-                  fontSize: 12,
-                ) : semiBlackFont.copyWith(
-                  color: Color(0xFFCDCBCB),
-                  fontSize: 12,
-                ),
-              ),
+              label: "Kehadiran",
               icon: Container(
                 margin: EdgeInsets.only(bottom: 4),
                 height: 24,

@@ -1,4 +1,12 @@
-part of 'screens.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
+
+import '../common/colors.dart';
+import '../common/fonts.dart';
+import '../common/sizes.dart';
+import 'check_in_screen.dart';
 
 class CheckOutScreen extends StatelessWidget {
   static String routeName = '/check_out_screen';
@@ -117,7 +125,7 @@ class __MethodCheckOutComponentState extends State<_MethodCheckOutComponent> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.only(left: defaultMargin),
+          padding: EdgeInsets.only(left: defaultMargin),
           child: Text(
             "Pilih Metode Absen",
             style: semiBlackFont.copyWith(fontSize: 14),
@@ -136,172 +144,18 @@ class __MethodCheckOutComponentState extends State<_MethodCheckOutComponent> {
         else Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            _MethodComponent(
+            MethodComponent(
               methodName: "One Click",
               iconPath: 'assets/images/one_click.png',
-              onTap: () async {
-                setState(() {
-                  isClicked = true;
-                });
-
-                String absentStatus = await getAbsentStatus();
-                bool isAwayTime = await isCheckOutTime();
-
-                if (absentStatus == "CHECK-OUT") {
-                  setState(() {
-                    isClicked = false;
-                  });
-
-                  showAlert(
-                    context,
-                    alert: CustomAlertDialog(
-                      title: "Sudah Absen Pulang",
-                      description: "Kamu sudah melakukan absen pulang sebelumnya...",
-                      imagePath: 'assets/images/out_worktime.png',
-                    ),
-                  );
-                } else if (!isAwayTime) {
-                  setState(() {
-                    isClicked = false;
-                  });
-
-                  showAlert(
-                    context,
-                    alert: CustomAlertDialog(
-                      title: "Diluar Jam Pulang",
-                      description: "Lakukan absen pulang pada waktu yang ditentukan...",
-                      imagePath: 'assets/images/out_worktime.png',
-                    ),
-                  );
-                } else if (absentStatus == null) {
-                  showAlert(
-                    context,
-                    alert: CustomAlertDialog(
-                      title: "Belum Absen Masuk",
-                      description: "Lakukan absen masuk terlebih dahulu ...",
-                      imagePath: 'assets/images/out_worktime.png',
-                    ),
-                  );
-                } else {
-                  User user = Provider.of<UserProvider>(context, listen: false).user;
-                  History history = Provider.of<HistoryProvider>(context, listen: false).lastHistory;
-
-                  await setAbsentStatus("CHECK-OUT");
-
-                  Absent absentData = Absent(
-                    userID: user.id,
-                    userName: user.name,
-                    userPhoto: user.photoURL,
-                    absentTime: DateTime.now(),
-                    absentType: 'CHECK-OUT',
-                  );
-
-                  History historyData = history.copyWith(
-                    absentCheckOut: DateTime.now().millisecondsSinceEpoch,
-                  );
-
-                  await AbsentServices.storeAbsentCollection(absentData);
-
-                  await AbsentServices.removeAbsentDatabase(user.id);
-
-                  Provider.of<PresenceProvider>(context, listen: false).updateTotal(user.id);
-
-                  Provider.of<HistoryProvider>(context, listen: false).updateHistory(historyData);
-
-                  Navigator.pushReplacementNamed(context, SuccessScreen.routeName,
-                    arguments: RouteArgument(
-                      success: Success(
-                        title: "Absensi Berhasil",
-                        subtitle: "Berhasil melakukan absensi Check-Out",
-                        illustrationImage: 'assets/images/success_register.png',
-                        nextRoute: MainScreen.routeName,
-                      ),
-                    ),
-                  );
-                }
-              },
+              onTap: () async {},
             ),
             SizedBox(
               width: defaultMargin
             ),
-            _MethodComponent(
+            MethodComponent(
               methodName: "Scan QR",
               iconPath: 'assets/images/scan_qr.png',
-              onTap: () async {
-                String absentStatus = await getAbsentStatus();
-                String scanResult = await scanner.scan();
-
-                if (absentStatus == "CHECK-OUT") {
-                  showAlert(
-                    context,
-                    alert: CustomAlertDialog(
-                      title: "Sudah Absen Pulang",
-                      description: "Kamu sudah melakukan absen pulang sebelumnya...",
-                      imagePath: 'assets/images/out_worktime.png',
-                    ),
-                  );
-                } else if (absentStatus == null) {
-                  showAlert(
-                    context,
-                    alert: CustomAlertDialog(
-                      title: "Belum Absen Masuk",
-                      description: "Lakukan absen masuk terlebih dahulu ...",
-                      imagePath: 'assets/images/out_worktime.png',
-                    ),
-                  );
-                } else if (scanResult != 'CHECK-OUT') {
-                  showAlert(
-                    context,
-                    alert: CustomAlertDialog(
-                      title: "Barcode Tidak Valid",
-                      description: "Lakukan scanning pada barcode bar di kantor kamu...",
-                      imagePath: 'assets/images/access_denied.png',
-                    ),
-                  );
-                } else {
-                  if (scanResult != null) {
-                    setState(() {
-                      isClicked = true;
-                    });
-                  }
-
-                  User user = Provider.of<UserProvider>(context, listen: false).user;
-                  History history = Provider.of<HistoryProvider>(context, listen: false).lastHistory;
-
-                  await setAbsentStatus("CHECK-OUT");
-
-                  Absent absentData = Absent(
-                    userID: user.id,
-                    userName: user.name,
-                    userPhoto: user.photoURL,
-                    absentTime: DateTime.now(),
-                    absentType: 'CHECK-OUT',
-                  );
-
-                  History historyData = history.copyWith(
-                    absentCheckOut: DateTime.now().millisecondsSinceEpoch,
-                  );
-
-                  await AbsentServices.storeAbsentCollection(absentData);
-
-                  await AbsentServices.removeAbsentDatabase(user.id);
-
-                  Provider.of<PresenceProvider>(context, listen: false).updateTotal(user.id);
-
-                  Provider.of<HistoryProvider>(context, listen: false).updateHistory(historyData);
-
-                  Navigator.pushReplacementNamed(context, SuccessScreen.routeName,
-                    arguments: RouteArgument(
-                      success: Success(
-                        title: "Absensi Berhasil",
-                        subtitle: "Berhasil melakukan absensi Check-Out",
-                        illustrationImage: 'assets/images/success_register.png',
-                        nextRoute: MainScreen.routeName,
-                      ),
-                    ),
-                  );
-                }
-              },
+              onTap: () async {},
             ),
           ],
         ),
@@ -317,7 +171,7 @@ class _ActivityCheckOutComponent extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.only(left: defaultMargin),
+          padding: EdgeInsets.only(left: defaultMargin),
           child: Text(
             "Aktivitas Kehadiran Terkini",
             textAlign: TextAlign.left,
@@ -327,78 +181,38 @@ class _ActivityCheckOutComponent extends StatelessWidget {
         SizedBox(
           height: 16,
         ),
-        StreamBuilder(
-          stream: AbsentServices.absentDatabase.onValue,
-          builder: (BuildContext context, snapshot) {
-            if (snapshot.hasData) {
-              List items = [];
-
-              DataSnapshot dataValues = snapshot.data.snapshot;
-              Map<dynamic, dynamic> values = dataValues.value;
-
-              if (values == null) {
-                return Container(
-                  width: deviceWidth(context),
-                  margin: EdgeInsets.symmetric(
-                    horizontal: defaultMargin,
-                    vertical: 84,
-                  ),
-                  child: Center(
-                    child: Text(
-                      "Tidak Ada Aktivitas Kehadiran",
-                      style: semiBlackFont.copyWith(fontSize: 12),
-                    ),
-                  ),
-                );
-              }
-
-              values.forEach((key, values) {
-                items.add(values);
-              });
-
-              return Container(
-                height: (items.length * 74).toDouble(),
-                margin: EdgeInsets.symmetric(horizontal: defaultMargin),
-                decoration: BoxDecoration(
-                  border: Border(
-                    top: BorderSide(
-                      color: Color(0xFFEEEEEE),
-                      width: 3,
-                      style: BorderStyle.solid,
-                    ),
-                    left: BorderSide(
-                      color: Color(0xFFEEEEEE),
-                      width: 3,
-                      style: BorderStyle.solid,
-                    ),
-                    right: BorderSide(
-                      color: Color(0xFFEEEEEE),
-                      width: 3,
-                      style: BorderStyle.solid,
-                    ),
-                  ),
-                ),
-                child: ListView.builder(
-                  physics: NeverScrollableScrollPhysics(),
-                  scrollDirection: Axis.vertical,
-                  itemCount: items.length,
-                  itemBuilder: (context, index) => _UserCheckOutComponent(
-                    userName: items[index]['userName'],
-                    absentTime: items[index]['absentTime'],
-                    photoURL: items[index]['userPhoto'],
-                  ),
-                ),
-              );
-            } else {
-              return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 84),
-                child: SpinKitFadingCircle(
-                  color: primaryColor,
-                  size: 50,
-                ),
-              );
-            }
-          },
+        Container(
+          height: (5 * 74).toDouble(),
+          margin: EdgeInsets.symmetric(horizontal: defaultMargin),
+          decoration: BoxDecoration(
+            border: Border(
+              top: BorderSide(
+                color: Color(0xFFEEEEEE),
+                width: 3,
+                style: BorderStyle.solid,
+              ),
+              left: BorderSide(
+                color: Color(0xFFEEEEEE),
+                width: 3,
+                style: BorderStyle.solid,
+              ),
+              right: BorderSide(
+                color: Color(0xFFEEEEEE),
+                width: 3,
+                style: BorderStyle.solid,
+              ),
+            ),
+          ),
+          child: ListView.builder(
+            physics: NeverScrollableScrollPhysics(),
+            scrollDirection: Axis.vertical,
+            itemCount: 5,
+            itemBuilder: (context, index) => _UserCheckOutComponent(
+              userName: "abuzaio",
+              absentTime: DateTime.now().millisecondsSinceEpoch,
+              photoURL: "https://cdn.myanimelist.net/images/characters/9/335049.jpg",
+            ),
+          ),
         ),
       ],
     );

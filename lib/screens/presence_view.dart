@@ -1,4 +1,12 @@
-part of 'screens.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:go_absensi/common/sizes.dart';
+import 'package:intl/intl.dart';
+import 'package:timer_builder/timer_builder.dart';
+
+import '../common/colors.dart';
+import '../common/fonts.dart';
+import '../utils/time_validation.dart';
 
 class PresenceView extends StatelessWidget {
   @override
@@ -145,7 +153,7 @@ class _PresenceActivityComponent extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.only(left: defaultMargin),
+          padding: EdgeInsets.only(left: defaultMargin),
           child: Text(
             "Kehadiran Hari Ini",
             textAlign: TextAlign.left,
@@ -155,80 +163,40 @@ class _PresenceActivityComponent extends StatelessWidget {
         SizedBox(
           height: 16,
         ),
-        StreamBuilder(
-          stream: AbsentServices.absentDatabase.orderByChild('absentTime').startAt(startTimeToday).endAt(endTimeToday).onValue,
-          builder: (BuildContext context, snapshot) {
-            if (snapshot.hasData) {
-              List items = [];
-
-              DataSnapshot dataValues = snapshot.data.snapshot;
-              Map<dynamic, dynamic> values = dataValues.value;
-
-              if (values == null) {
-                return Container(
-                  width: deviceWidth(context),
-                  margin: EdgeInsets.symmetric(
-                    horizontal: defaultMargin,
-                    vertical: 140,
-                  ),
-                  child: Center(
-                    child: Text(
-                      "Tidak Ada Aktivitas Kehadiran",
-                      style: semiBlackFont.copyWith(fontSize: 12),
-                    ),
-                  ),
-                );
-              }
-
-              values.forEach((key, values) {
-                items.add(values);
-              });
-
-              return Container(
-                height: (items.length * 74).toDouble(),
-                margin: EdgeInsets.symmetric(horizontal: defaultMargin),
-                decoration: BoxDecoration(
-                  border: Border(
-                    top: BorderSide(
-                      color: Color(0xFFEEEEEE),
-                      width: 3,
-                      style: BorderStyle.solid,
-                    ),
-                    left: BorderSide(
-                      color: Color(0xFFEEEEEE),
-                      width: 3,
-                      style: BorderStyle.solid,
-                    ),
-                    right: BorderSide(
-                      color: Color(0xFFEEEEEE),
-                      width: 3,
-                      style: BorderStyle.solid,
-                    ),
-                  ),
-                ),
-                child: ListView.builder(
-                  physics: NeverScrollableScrollPhysics(),
-                  scrollDirection: Axis.vertical,
-                  itemCount: items.length,
-                  itemBuilder: (context, index) => _UserPresenceComponent(
-                    userName: items[index]['userName'],
-                    absentTime: items[index]['absentTime'],
-                    photoURL: items[index]['userPhoto'],
-                  ),
-                ),
-              );
-            } else {
-              return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 84),
-                child: SpinKitFadingCircle(
-                  color: primaryColor,
-                  size: 50,
-                ),
-              );
-            }
-          },
+        Container(
+          height: (5 * 74).toDouble(),
+          margin: EdgeInsets.symmetric(horizontal: defaultMargin),
+          decoration: BoxDecoration(
+            border: Border(
+              top: BorderSide(
+                color: Color(0xFFEEEEEE),
+                width: 3,
+                style: BorderStyle.solid,
+              ),
+              left: BorderSide(
+                color: Color(0xFFEEEEEE),
+                width: 3,
+                style: BorderStyle.solid,
+              ),
+              right: BorderSide(
+                color: Color(0xFFEEEEEE),
+                width: 3,
+                style: BorderStyle.solid,
+              ),
+            ),
+          ),
+          child: ListView.builder(
+            physics: NeverScrollableScrollPhysics(),
+            scrollDirection: Axis.vertical,
+            itemCount: 5,
+            itemBuilder: (context, index) => _UserPresenceComponent(
+              userName: "abuzaio",
+              absentTime: DateTime.now().millisecondsSinceEpoch,
+              photoURL: "https://cdn.myanimelist.net/images/characters/9/335049.jpg"
+            ),
+          ),
         ),
-      ],
+      ]
     );
   }
 }

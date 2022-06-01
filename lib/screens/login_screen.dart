@@ -1,4 +1,12 @@
-part of 'screens.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+
+import '../common/colors.dart';
+import '../common/fonts.dart';
+import '../common/sizes.dart';
+import '../widgets/custom_raised_button.dart';
+import '../widgets/custom_text_field.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -17,10 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
-
-    final isValidEmail = Provider.of<ValidationProvider>(context).errorEmail == "";
-    final isValidPassword = Provider.of<ValidationProvider>(context).errorPassword == "";
-
+    
     return WillPopScope(
       onWillPop: () async {
         return;
@@ -34,12 +39,11 @@ class _LoginScreenState extends State<LoginScreen> {
             SafeArea(
               child: SingleChildScrollView(
                 padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-                child: Consumer<ValidationProvider>(
-                  builder: (context, validation, _) => Column(
+                child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       SizedBox(
-                        height: 70,
+                        height: 120,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -70,17 +74,13 @@ class _LoginScreenState extends State<LoginScreen> {
                         ],
                       ),
                       SizedBox(
-                        height: 40,
+                        height: 60,
                       ),
                       CustomTextField(
                         labelText: "Email Address",
                         hintText: "Masukan Email",
                         keyboardType: TextInputType.emailAddress,
                         controller: emailController,
-                        errorValidation: validation.errorEmail,
-                        onChanged: (text) {
-                          validation.changeEmail(text);
-                        },
                       ),
                       SizedBox(
                         height: 16,
@@ -90,10 +90,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         labelText: "Password",
                         hintText: "Masukan Password",
                         controller: passwordController,
-                        errorValidation: validation.errorPassword,
-                        onChanged: (text) {
-                          validation.changePassword(text);
-                        },
                         suffixIcon: GestureDetector(
                           onTap: () {
                             setState(() {
@@ -124,43 +120,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       else CustomRaisedButton(
                         "Login",
                         textColor: whiteColor,
-                        color: (isValidEmail && isValidPassword) ? primaryColor : Color(0xFFCDCBCB),
-                        onPressed: (isValidEmail && isValidPassword) ? () async {
-                          
-                          /// Set isLogining be 'true' to show loading wave
-                          setState(() {
-                            isLogining = true;
-                          });
-
-                          /// Call auth services to check auth data
-                          ResponseHandler result = await AuthServices.logIn(
-                            Auth(
-                              email: emailController.text,
-                              password: passwordController.text,
-                            ),
-                          );
-
-                          /// Checking if user failed or success to check 
-                          /// (it will receive response message if failed)
-                          if (result.user == null) {
-                            setState(() {
-                              isLogining = false;
-                            });
-
-                            showAlert(
-                              context,
-                              alert: CustomAlertDialog(
-                                title: generateAuthMessage(result.message).title,
-                                description: generateAuthMessage(result.message).message,
-                                imagePath: generateAuthMessage(result.message).illustration,
-                              ),
-                            );
-                          } else {
-                            /// Reset validation state
-                            validation.resetChange();
-                          }
-                          
-                        } : null,
+                        color: primaryColor,
+                        onPressed: () async {},
                       ),
                       SizedBox(
                         height: 110,
@@ -172,57 +133,14 @@ class _LoginScreenState extends State<LoginScreen> {
                             child: InkWell(
                               splashColor: Colors.black.withOpacity(0.3),
                               child: Text(
-                                "Buat Akun",
-                                style: semiGreyFont.copyWith(
-                                  fontSize: 14,
-                                  color: primaryColor,
-                                ),
-                              ),
-                              onTap: () {
-                                validation.resetChange();
-                                Navigator.pushNamed(context, RegisterScreen.routeName, 
-                                  arguments: RouteArgument(auth: Auth()),
-                                );
-                              },
-                            ),
-                          ),
-                          SizedBox(
-                            width: 16,
-                          ),
-                          Material(
-                            child: InkWell(
-                              splashColor: Colors.black.withOpacity(0.3),
-                              child: Text(
                                 "Ganti Password",
                                 style: semiGreyFont.copyWith(
                                   fontSize: 14,
                                   color: primaryColor,
+                                  decoration: TextDecoration.underline,
                                 ),
                               ),
-                              onTap: () async {
-                                if (emailController.text == "") {
-                                  Fluttertoast.showToast(
-                                    msg: "Masukan Email Anda Terlebih Dahulu",
-                                  );
-                                } else {
-                                  ResponseHandler result = await AuthServices.resetPassword(emailController.text);
-
-                                  if (result.message != null) {
-                                    showAlert(
-                                      context,
-                                      alert: CustomAlertDialog(
-                                        title: generateAuthMessage(result.message).title,
-                                        description: generateAuthMessage(result.message).message,
-                                        imagePath: generateAuthMessage(result.message).illustration,
-                                      ),
-                                    );
-                                  } else {
-                                    Fluttertoast.showToast(
-                                      msg: "Silahkan Periksa Inbox Email Anda",
-                                    );
-                                  }
-                                }
-                              },
+                              onTap: () async {},
                             ),
                           ),
                         ],
@@ -241,7 +159,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
-            ),
           ],
         ),
       ),

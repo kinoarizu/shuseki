@@ -1,4 +1,5 @@
-part of 'utils.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:trust_location/trust_location.dart';
 
 Future<List<String>> getPosition() async {
   Position position = await getCurrentPosition(desiredAccuracy: LocationAccuracy.high);

@@ -1,5 +1,3 @@
-part of 'extensions.dart';
-
 extension DateTimeExtension on DateTime {
   String get dayName {
     switch (this.weekday) {

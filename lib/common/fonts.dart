@@ -1,4 +1,6 @@
-part of 'common.dart';
+import 'package:flutter/material.dart';
+
+import 'colors.dart';
 
 const TextStyle lightBlackFont = TextStyle(
   fontFamily: "Nunito Sans",

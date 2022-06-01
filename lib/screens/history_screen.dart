@@ -1,4 +1,12 @@
-part of 'screens.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_absensi/extensions/date_time_extension.dart';
+import 'package:intl/intl.dart';
+
+import '../common/colors.dart';
+import '../common/fonts.dart';
+import '../common/sizes.dart';
 
 class HistoryScreen extends StatelessWidget {
   static String routeName = '/history_screen';
@@ -102,75 +110,54 @@ class _HeaderHistoryComponent extends StatelessWidget {
 class _HistoryListComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Consumer<HistoryProvider>(
-      builder: (context, historyProvider, _) {
-        if (historyProvider.histories.length == 0) {
-          return Container(
-            width: deviceWidth(context),
-            margin: EdgeInsets.symmetric(
-              horizontal: defaultMargin,
-              vertical: 220,
-            ),
-            child: Center(
-              child: Text(
-                "Tidak Ada Riwayat Kehadiran",
-                style: semiBlackFont.copyWith(fontSize: 12),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: EdgeInsets.only(left: defaultMargin),
+          child: Text(
+            "Bulan Ini",
+            textAlign: TextAlign.left,
+            style: semiBlackFont.copyWith(fontSize: 14),
+          ),
+        ),
+        SizedBox(
+          height: 16,
+        ),
+        Container(
+          height: (2 * 90).toDouble(),
+          margin: EdgeInsets.symmetric(horizontal: defaultMargin),
+          decoration: BoxDecoration(
+            border: Border(
+              top: BorderSide(
+                color: Color(0xFFEEEEEE),
+                width: 3,
+                style: BorderStyle.solid,
+              ),
+              left: BorderSide(
+                color: Color(0xFFEEEEEE),
+                width: 3,
+                style: BorderStyle.solid,
+              ),
+              right: BorderSide(
+                color: Color(0xFFEEEEEE),
+                width: 3,
+                style: BorderStyle.solid,
               ),
             ),
-          );
-        }
-        
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: defaultMargin),
-              child: Text(
-                "Bulan Ini",
-                textAlign: TextAlign.left,
-                style: semiBlackFont.copyWith(fontSize: 14),
-              ),
+          ),
+          child: ListView.builder(
+            physics: NeverScrollableScrollPhysics(),
+            scrollDirection: Axis.vertical,
+            itemCount: 2,
+            itemBuilder: (context, index) => _HistoryComponent(
+              userName: "abuzaio",
+              absentCheckIn: DateTime.now().millisecondsSinceEpoch,
+              absentCheckOut: DateTime.now().millisecondsSinceEpoch,
             ),
-            SizedBox(
-              height: 16,
-            ),
-            Container(
-              height: (historyProvider.histories.length * 90).toDouble(),
-              margin: EdgeInsets.symmetric(horizontal: defaultMargin),
-              decoration: BoxDecoration(
-                border: Border(
-                  top: BorderSide(
-                    color: Color(0xFFEEEEEE),
-                    width: 3,
-                    style: BorderStyle.solid,
-                  ),
-                  left: BorderSide(
-                    color: Color(0xFFEEEEEE),
-                    width: 3,
-                    style: BorderStyle.solid,
-                  ),
-                  right: BorderSide(
-                    color: Color(0xFFEEEEEE),
-                    width: 3,
-                    style: BorderStyle.solid,
-                  ),
-                ),
-              ),
-              child: ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                scrollDirection: Axis.vertical,
-                itemCount: historyProvider.histories.length,
-                itemBuilder: (context, index) => _HistoryComponent(
-                  userName: historyProvider.histories[index].userName,
-                  userPhoto: historyProvider.histories[index].userPhoto,
-                  absentCheckIn: historyProvider.histories[index].absentCheckIn,
-                  absentCheckOut: historyProvider.histories[index].absentCheckOut ?? 0,
-                ),
-              ),
-            ),
-          ],
-        );
-      },
+          ),
+        ),
+      ],
     );
   }
 }
@@ -185,8 +172,10 @@ class _HistoryComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String checkInTime =  DateFormat('hh : mm WIB').format(DateTime.fromMillisecondsSinceEpoch(absentCheckIn));
-    String checkOutTime =  DateFormat('hh : mm WIB').format(DateTime.fromMillisecondsSinceEpoch(absentCheckOut));
+    String checkInTime = DateFormat('hh : mm WIB')
+        .format(DateTime.fromMillisecondsSinceEpoch(absentCheckIn));
+    String checkOutTime = DateFormat('hh : mm WIB')
+        .format(DateTime.fromMillisecondsSinceEpoch(absentCheckOut));
     DateTime dateCheckIn = DateTime.fromMillisecondsSinceEpoch(absentCheckIn);
     DateTime dateCheckOut = DateTime.fromMillisecondsSinceEpoch(absentCheckOut);
 
@@ -208,28 +197,31 @@ class _HistoryComponent extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          if (userPhoto == null) ClipOval(
-            child: Image.asset(
-              'assets/images/avatar.png',
-              width: 50,
-              height: 50,
-              fit: BoxFit.cover,
+          if (userPhoto == null)
+            ClipOval(
+              child: Image.asset(
+                'assets/images/avatar.png',
+                width: 50,
+                height: 50,
+                fit: BoxFit.cover,
+              ),
+            )
+          else
+            ClipOval(
+              child: Image.network(
+                userPhoto,
+                width: 46,
+                height: 46,
+                fit: BoxFit.cover,
+                loadingBuilder: (BuildContext context, Widget child,
+                    ImageChunkEvent loadingProgress) {
+                  if (loadingProgress == null) return child;
+                  return SpinKitFadingCircle(
+                    color: primaryColor,
+                  );
+                },
+              ),
             ),
-          )
-          else ClipOval(
-            child: Image.network(
-              userPhoto,
-              width: 46,
-              height: 46,
-              fit: BoxFit.cover,
-              loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent loadingProgress) {
-                if (loadingProgress == null) return child;
-                return SpinKitFadingCircle(
-                  color: primaryColor,
-                );
-              },
-            ),
-          ),
           SizedBox(
             width: 16,
           ),
@@ -295,7 +287,9 @@ class _HistoryComponent extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    (absentCheckOut == 0) ? '-' : "$checkOutTime, ${dateCheckOut.day} ${dateCheckOut.monthName} ${dateCheckOut.year}",
+                    (absentCheckOut == 0)
+                        ? '-'
+                        : "$checkOutTime, ${dateCheckOut.day} ${dateCheckOut.monthName} ${dateCheckOut.year}",
                     style: semiBlackFont.copyWith(
                       fontSize: 11,
                     ),

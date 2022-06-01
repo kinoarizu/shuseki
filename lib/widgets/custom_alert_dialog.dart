@@ -1,4 +1,8 @@
-part of 'widgets.dart';
+import 'package:flutter/material.dart';
+
+import '../common/colors.dart';
+import '../common/fonts.dart';
+import '../common/sizes.dart';
 
 class CustomAlertDialog extends StatelessWidget {
   final String title;

@@ -1,4 +1,4 @@
-part of 'utils.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 Future<String> getAbsentStatus() async {
   final prefs = await SharedPreferences.getInstance();

@@ -1,4 +1,5 @@
-part of 'utils.dart';
+import 'package:flutter/material.dart';
+
 
 void showAlert(BuildContext context, {Widget alert}) {
   showDialog(
