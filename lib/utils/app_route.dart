@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-import '../screens/check_in_screen.dart';
-import '../screens/check_out_screen.dart';
-import '../screens/history_screen.dart';
-import '../screens/login_screen.dart';
-import '../screens/main_screen.dart';
-import '../screens/splash_screen.dart';
-import '../screens/wrapper.dart';
+import '../presentation/ui/screens/check_in_screen.dart';
+import '../presentation/ui/screens/check_out_screen.dart';
+import '../presentation/ui/screens/history_screen.dart';
+import '../presentation/ui/screens/login_screen.dart';
+import '../presentation/ui/screens/main_screen.dart';
+import '../presentation/ui/screens/splash_screen.dart';
+import '../presentation/ui/screens/wrapper.dart';
 
 Map<String, WidgetBuilder> appRoute = {
   Wrapper.routeName: (context) => Wrapper(),

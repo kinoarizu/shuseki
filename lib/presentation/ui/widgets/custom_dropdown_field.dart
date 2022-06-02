@@ -1,8 +1,8 @@
 // ignore: must_be_immutable
 import 'package:flutter/material.dart';
 
-import '../common/colors.dart';
-import '../common/fonts.dart';
+import '../../../shared/common/colors.dart';
+import '../../../shared/common/fonts.dart';
 
 class CustomDropdownField extends StatelessWidget {
   final String errorValidation;

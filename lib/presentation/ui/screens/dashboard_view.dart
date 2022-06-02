@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../common/colors.dart';
-import '../common/fonts.dart';
-import '../common/sizes.dart';
-import '../utils/alert_dialog.dart';
+import '../../../shared/common/colors.dart';
+import '../../../shared/common/fonts.dart';
+import '../../../shared/common/sizes.dart';
+import '../../../utils/alert_dialog.dart';
 import 'check_in_screen.dart';
 import 'check_out_screen.dart';
 import 'history_screen.dart';

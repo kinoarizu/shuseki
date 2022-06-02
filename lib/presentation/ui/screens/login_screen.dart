@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-import '../common/colors.dart';
-import '../common/fonts.dart';
-import '../common/sizes.dart';
+import '../../../shared/common/colors.dart';
+import '../../../shared/common/fonts.dart';
+import '../../../shared/common/sizes.dart';
 import '../widgets/custom_raised_button.dart';
 import '../widgets/custom_text_field.dart';
 

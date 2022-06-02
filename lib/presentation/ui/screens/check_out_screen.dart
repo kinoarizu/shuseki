@@ -3,12 +3,13 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 
-import '../common/colors.dart';
-import '../common/fonts.dart';
-import '../common/sizes.dart';
+import '../../../shared/common/colors.dart';
+import '../../../shared/common/fonts.dart';
+import '../../../shared/common/sizes.dart';
+import 'check_in_screen.dart';
 
-class CheckInScreen extends StatelessWidget {
-  static String routeName = '/check_in_screen';
+class CheckOutScreen extends StatelessWidget {
+  static String routeName = '/check_out_screen';
 
   @override
   Widget build(BuildContext context) {
@@ -32,15 +33,15 @@ class CheckInScreen extends StatelessWidget {
                   SingleChildScrollView(
                     child: Column(
                       children: [
-                        _HeaderCheckInComponent(),
+                        _HeaderCheckOutComponent(),
                         SizedBox(
                           height: 24,
                         ),
-                        _MethodCheckInComponent(),
+                        _MethodCheckOutComponent(),
                         SizedBox(
                           height: 24,
                         ),
-                        _ActivityCheckInComponent(),
+                        _ActivityCheckOutComponent(),
                       ],
                     ),
                   ),
@@ -54,7 +55,7 @@ class CheckInScreen extends StatelessWidget {
   }
 }
 
-class _HeaderCheckInComponent extends StatelessWidget {
+class _HeaderCheckOutComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -100,7 +101,7 @@ class _HeaderCheckInComponent extends StatelessWidget {
           ),
           Center(
             child: Text(
-              "Absen Masuk",
+              "Absen Pulang",
               style: boldWhiteFont.copyWith(fontSize: 18),
             ),
           ),
@@ -110,12 +111,12 @@ class _HeaderCheckInComponent extends StatelessWidget {
   }
 }
 
-class _MethodCheckInComponent extends StatefulWidget {
+class _MethodCheckOutComponent extends StatefulWidget {
   @override
-  _MethodCheckInComponentState createState() => _MethodCheckInComponentState();
+  __MethodCheckOutComponentState createState() => __MethodCheckOutComponentState();
 }
 
-class _MethodCheckInComponentState extends State<_MethodCheckInComponent> {
+class __MethodCheckOutComponentState extends State<_MethodCheckOutComponent> {
   bool isClicked = false;
 
   @override
@@ -163,57 +164,7 @@ class _MethodCheckInComponentState extends State<_MethodCheckInComponent> {
   }
 }
 
-class MethodComponent extends StatelessWidget {
-  final String methodName;
-  final String iconPath;
-  final Function onTap;
-
-  MethodComponent({this.methodName, this.iconPath, this.onTap});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: deviceWidth(context) / 2 - 1.5 * defaultMargin,
-      height: 187,
-      child: RaisedButton(
-        onPressed: onTap,
-        color: primaryColor,
-        elevation: 0,
-        hoverElevation: 0,
-        focusElevation: 0,
-        highlightElevation: 0,
-        splashColor: Colors.black.withOpacity(0.3),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              width: 90,
-              height: 90,
-              margin: EdgeInsets.only(bottom: 18),
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(
-                    iconPath,
-                  ),
-                ),
-              ),
-            ),
-            Text(
-              methodName,
-              style: boldWhiteFont.copyWith(fontSize: 16),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _ActivityCheckInComponent extends StatelessWidget {
+class _ActivityCheckOutComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -256,28 +207,28 @@ class _ActivityCheckInComponent extends StatelessWidget {
             physics: NeverScrollableScrollPhysics(),
             scrollDirection: Axis.vertical,
             itemCount: 5,
-            itemBuilder: (context, index) => _UserCheckInComponent(
+            itemBuilder: (context, index) => _UserCheckOutComponent(
               userName: "abuzaio",
               absentTime: DateTime.now().millisecondsSinceEpoch,
               photoURL: "https://cdn.myanimelist.net/images/characters/9/335049.jpg",
             ),
           ),
         ),
-      ]
+      ],
     );
   }
 }
 
-class _UserCheckInComponent extends StatelessWidget {
+class _UserCheckOutComponent extends StatelessWidget {
   final String userName;
   final int absentTime;
   final String photoURL;
 
-  _UserCheckInComponent({this.userName, this.absentTime, this.photoURL});
+  _UserCheckOutComponent({this.userName, this.absentTime, this.photoURL});
   
   @override
   Widget build(BuildContext context) {
-    String time = DateFormat('hh : mm : ss').format(DateTime.fromMillisecondsSinceEpoch(absentTime));
+    String time =  DateFormat('hh : mm : ss').format(DateTime.fromMillisecondsSinceEpoch(absentTime));
 
     return Container(
       width: deviceWidth(context),
@@ -339,7 +290,7 @@ class _UserCheckInComponent extends StatelessWidget {
                   Container(
                     width: 42,
                     height: 14,
-                    margin: EdgeInsets.only(right: 8),
+                    margin: EdgeInsets.only(right: 10),
                     decoration: BoxDecoration(
                       color: primaryColor,
                       borderRadius: BorderRadius.circular(2),

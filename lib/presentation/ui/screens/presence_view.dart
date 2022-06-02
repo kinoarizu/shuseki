@@ -1,109 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:timer_builder/timer_builder.dart';
 
-import '../common/colors.dart';
-import '../common/fonts.dart';
-import '../common/sizes.dart';
-import 'check_in_screen.dart';
+import '../../../shared/common/colors.dart';
+import '../../../shared/common/fonts.dart';
+import '../../../shared/common/sizes.dart';
+import '../../../utils/time_validation.dart';
 
-class CheckOutScreen extends StatelessWidget {
-  static String routeName = '/check_out_screen';
-
+class PresenceView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        Navigator.pop(context);
-        return;
-      },
-      child: Scaffold(
-        body: Stack(
-          children: [
-            Container(
-              color: primaryColor,
-            ),
-            SafeArea(
-              child: Stack(
-                children: [
-                  Container(
-                    color: screenColor,
-                  ),
-                  SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        _HeaderCheckOutComponent(),
-                        SizedBox(
-                          height: 24,
-                        ),
-                        _MethodCheckOutComponent(),
-                        SizedBox(
-                          height: 24,
-                        ),
-                        _ActivityCheckOutComponent(),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _HeaderCheckOutComponent extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: deviceWidth(context),
-      height: 88,
-      padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-      decoration: BoxDecoration(
-        color: primaryColor,
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(16),
-          bottomRight: Radius.circular(16),
-        ),
-      ),
+    return SingleChildScrollView(
       child: Stack(
         children: [
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Container(
-              width: 34,
-              height: 34,
-              child: RaisedButton(
-                color: maroonColor,
-                elevation: 0,
-                hoverElevation: 0,
-                focusElevation: 0,
-                highlightElevation: 0,
-                padding: EdgeInsets.zero,
-                splashColor: Colors.black.withOpacity(0.3),
-                visualDensity: VisualDensity.comfortable,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(6),
-                ),
-                child: FaIcon(
-                  FontAwesomeIcons.arrowLeft,
-                  color: whiteColor,
-                  size: 18,
-                ),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
+          Container(
+            width: deviceWidth(context),
+            height: 140 - statusBarHeight(context),
+            decoration: BoxDecoration(
+              color: primaryColor,
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(24),
+                bottomRight: Radius.circular(24),
               ),
             ),
           ),
-          Center(
-            child: Text(
-              "Absen Pulang",
-              style: boldWhiteFont.copyWith(fontSize: 18),
-            ),
+          Column(
+            children: [
+              SizedBox(
+                height: 32,
+              ),
+              _HeaderPresenceComponent(),
+              SizedBox(
+                height: 32,
+              ),
+              _ClockPresenceComponent(),
+              SizedBox(
+                height: 24,
+              ),
+              _PresenceActivityComponent(),
+            ],
           ),
         ],
       ),
@@ -111,51 +47,35 @@ class _HeaderCheckOutComponent extends StatelessWidget {
   }
 }
 
-class _MethodCheckOutComponent extends StatefulWidget {
-  @override
-  __MethodCheckOutComponentState createState() => __MethodCheckOutComponentState();
-}
-
-class __MethodCheckOutComponentState extends State<_MethodCheckOutComponent> {
-  bool isClicked = false;
-
+class _HeaderPresenceComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return Row(
       children: [
-        Padding(
-          padding: EdgeInsets.only(left: defaultMargin),
-          child: Text(
-            "Pilih Metode Absen",
-            style: semiBlackFont.copyWith(fontSize: 14),
-          ),
-        ),
         SizedBox(
-          height: 16,
+          width: defaultMargin,
         ),
-        if (isClicked) Padding(
-          padding: const EdgeInsets.symmetric(vertical: 53),
-          child: SpinKitFadingCircle(
-            color: primaryColor,
-            size: 70,
+        Container(
+          width: 50,
+          height: 50,
+          margin: EdgeInsets.only(right: 14),
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/secondary_logo.png'),
+            ),
           ),
-        )
-        else Row(
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            MethodComponent(
-              methodName: "One Click",
-              iconPath: 'assets/images/one_click.png',
-              onTap: () async {},
+            Text(
+              "Aktivitas Kehadiran",
+              style: boldWhiteFont.copyWith(fontSize: 22),
             ),
-            SizedBox(
-              width: defaultMargin
-            ),
-            MethodComponent(
-              methodName: "Scan QR",
-              iconPath: 'assets/images/scan_qr.png',
-              onTap: () async {},
+            Text(
+              "Realtime Presence App",
+              style: regularWhiteFont.copyWith(fontSize: 11),
             ),
           ],
         ),
@@ -164,16 +84,78 @@ class __MethodCheckOutComponentState extends State<_MethodCheckOutComponent> {
   }
 }
 
-class _ActivityCheckOutComponent extends StatelessWidget {
+class _ClockPresenceComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.symmetric(
+        horizontal: 40,
+      ),
+      padding: EdgeInsets.symmetric(
+        vertical: 10,
+      ),
+      decoration: BoxDecoration(
+        color: whiteColor,
+        borderRadius: BorderRadius.circular(8),
+        boxShadow: [
+          BoxShadow(
+            color: Color(0xFFEEEEEE),
+            offset: Offset(0, 5),
+          ),
+        ],
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(
+            'assets/images/clock.png',
+            width: 31,
+            height: 31,
+          ),
+          SizedBox(
+            width: 16,
+          ),
+          TimerBuilder.periodic(
+            Duration(seconds: 1),
+            builder: (context) {
+              return Text(
+                getSystemTime(),
+                style: boldBlackFont.copyWith(
+                  color: primaryColor,
+                  fontSize: 24,
+                ),
+              );
+            },
+          ),
+          SizedBox(
+            width: 16,
+          ),
+          Text(
+            "WIB",
+            style: boldBlackFont.copyWith(
+              color: primaryColor,
+              fontSize: 24,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _PresenceActivityComponent extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    int startTimeToday = DateTime.now().subtract(Duration(hours: 12)).millisecondsSinceEpoch;
+    int endTimeToday = DateTime.now().add(Duration(hours: 12)).millisecondsSinceEpoch;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: EdgeInsets.only(left: defaultMargin),
           child: Text(
-            "Aktivitas Kehadiran Terkini",
+            "Kehadiran Hari Ini",
             textAlign: TextAlign.left,
             style: semiBlackFont.copyWith(fontSize: 14),
           ),
@@ -207,24 +189,24 @@ class _ActivityCheckOutComponent extends StatelessWidget {
             physics: NeverScrollableScrollPhysics(),
             scrollDirection: Axis.vertical,
             itemCount: 5,
-            itemBuilder: (context, index) => _UserCheckOutComponent(
+            itemBuilder: (context, index) => _UserPresenceComponent(
               userName: "abuzaio",
               absentTime: DateTime.now().millisecondsSinceEpoch,
-              photoURL: "https://cdn.myanimelist.net/images/characters/9/335049.jpg",
+              photoURL: "https://cdn.myanimelist.net/images/characters/9/335049.jpg"
             ),
           ),
         ),
-      ],
+      ]
     );
   }
 }
 
-class _UserCheckOutComponent extends StatelessWidget {
+class _UserPresenceComponent extends StatelessWidget {
   final String userName;
   final int absentTime;
   final String photoURL;
 
-  _UserCheckOutComponent({this.userName, this.absentTime, this.photoURL});
+  _UserPresenceComponent({this.userName, this.absentTime, this.photoURL});
   
   @override
   Widget build(BuildContext context) {
@@ -290,7 +272,7 @@ class _UserCheckOutComponent extends StatelessWidget {
                   Container(
                     width: 42,
                     height: 14,
-                    margin: EdgeInsets.only(right: 10),
+                    margin: EdgeInsets.only(right: 8),
                     decoration: BoxDecoration(
                       color: primaryColor,
                       borderRadius: BorderRadius.circular(2),
@@ -305,7 +287,7 @@ class _UserCheckOutComponent extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "$time WIB",
+                    time + " WIB",
                     style: semiBlackFont.copyWith(
                       fontSize: 11,
                     ),

@@ -3,8 +3,8 @@ import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-import 'common/colors.dart';
-import 'screens/splash_screen.dart';
+import 'presentation/ui/screens/splash_screen.dart';
+import 'shared/common/colors.dart';
 import 'utils/app_route.dart';
 
 void main() async {

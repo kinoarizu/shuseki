@@ -1,4 +1,4 @@
-import '../models/auth_message.dart';
+import '../data/models/auth_message.dart';
 
 AuthMessage generateAuthMessage(String errorCode) {
   switch (errorCode) {

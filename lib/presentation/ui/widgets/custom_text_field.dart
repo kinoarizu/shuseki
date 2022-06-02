@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../common/colors.dart';
-import '../common/fonts.dart';
+import '../../../shared/common/colors.dart';
+import '../../../shared/common/fonts.dart';
 
 class CustomTextField extends StatelessWidget {
   final String labelText;

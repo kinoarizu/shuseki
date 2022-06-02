@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:go_absensi/extensions/date_time_extension.dart';
+import 'package:go_absensi/shared/extensions/date_time_extension.dart';
 import 'package:intl/intl.dart';
 
-import '../common/colors.dart';
-import '../common/fonts.dart';
-import '../common/sizes.dart';
+import '../../../shared/common/colors.dart';
+import '../../../shared/common/fonts.dart';
+import '../../../shared/common/sizes.dart';
 
 class HistoryScreen extends StatelessWidget {
   static String routeName = '/history_screen';
