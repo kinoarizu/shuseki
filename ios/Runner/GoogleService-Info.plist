@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>226110189391-t7okdlvatcmt58mp0uov079qcbni5v1s.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.226110189391-t7okdlvatcmt58mp0uov079qcbni5v1s</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>226110189391-big75h131jf22f0cls81jt9ic35mncjc.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCP37f3X2J1Fqe_vVXV7vKwdlqcWmaGddU</string>
+	<key>GCM_SENDER_ID</key>
+	<string>226110189391</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.abuzaio.goAbsensi</string>
+	<key>PROJECT_ID</key>
+	<string>go-absensi-ee056</string>
+	<key>STORAGE_BUCKET</key>
+	<string>go-absensi-ee056.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:226110189391:ios:224679e98d01ef69435f3a</string>
+</dict>
+</plist>
