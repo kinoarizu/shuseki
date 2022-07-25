@@ -1,84 +1,73 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../../../routes/app_pages.dart';
+import 'package:go_absensi/app/controllers/page_index_controller.dart';
+import 'package:go_absensi/app/routes/app_pages.dart';
+import 'package:go_absensi/app/widgets/dialog/custom_alert_dialog.dart';
+import 'package:go_absensi/app/widgets/toast/custom_toast.dart';
 
 class LoginController extends GetxController {
+  final pageIndexController = Get.find<PageIndexController>();
+  RxBool isLoading = false.obs;
+  RxBool obsecureText = true.obs;
   TextEditingController emailC = TextEditingController();
-  TextEditingController passwordC = TextEditingController();
+  TextEditingController passC = TextEditingController();
 
   FirebaseAuth auth = FirebaseAuth.instance;
 
-  void login() async {
-    if (emailC.text.isNotEmpty && passwordC.text.isNotEmpty) {
+  checkDefaultPassword() {
+    if (passC.text == 'qwertyuiop')
+      Get.toNamed(Routes.NEW_PASSWORD);
+    else {
+      Get.offAllNamed(Routes.HOME);
+      pageIndexController.changePage(0);
+    }
+  }
+
+  Future<void> login() async {
+    if (emailC.text.isNotEmpty && passC.text.isNotEmpty) {
+      isLoading.value = true;
       try {
-        UserCredential userCredential = await auth.signInWithEmailAndPassword(
-          email: emailC.text,
-          password: passwordC.text,
+        final credential = await auth.signInWithEmailAndPassword(
+          email: emailC.text.trim(),
+          password: passC.text,
         );
 
-        if (userCredential.user != null) {
-          if (userCredential.user!.emailVerified) {
-            if (passwordC.text == "password") {
-              Get.offAllNamed(Routes.NEW_PASSWORD);
-            } else {
-              Get.offAllNamed(Routes.HOME);
-            }
+        if (credential.user != null) {
+          if (credential.user!.emailVerified) {
+            isLoading.value = false;
+            checkDefaultPassword();
           } else {
-            Get.defaultDialog(
-              title: "Belum Verfikasi",
-              middleText: "Kamu belum verifikasi akun ini. Lakukan verfikasi di email kamu.",
-              actions: [
-                OutlinedButton(
-                  onPressed: () => Get.back(), 
-                  child: Text("CANCEL"),
-                ),
-                ElevatedButton(
-                  onPressed: () async {
-                    try {
-                      await userCredential.user!.sendEmailVerification();
-                      Get.back();
-                      Get.snackbar(
-                        "Berhasil", 
-                        "Kami telah berhasil mengirim email verfikasi ke akun kamu.",
-                      );
-                    } catch (e) {
-                      Get.snackbar(
-                        "Terjadi Kesalahan", 
-                        "Tidak dapat mengirim email verifikasi. Hubungi admin atau customer service.",
-                      );
-                    }
-                  }, 
-                  child: Text("KIRIM ULANG"),
-                ),
-              ],
+            CustomAlertDialog.showPresenceAlert(
+              title: "Email not yet verified",
+              message: "Are you want to send email verification?",
+              onCancel: () => Get.back(),
+              onConfirm: () async {
+                try {
+                  await credential.user!.sendEmailVerification();
+                  Get.back();
+                  CustomToast.successToast("Success", "We've send email verification to your email");
+                  isLoading.value = false;
+                } catch (e) {
+                  CustomToast.errorToast("Error", "Cant send email verification. Error because : ${e.toString()}");
+                }
+              },
             );
           }
         }
+        isLoading.value = false;
       } on FirebaseAuthException catch (e) {
+        isLoading.value = false;
         if (e.code == 'user-not-found') {
-          Get.snackbar(
-            "Terjadi Kesalahan",
-            "Email tidak terdaftar",
-          );
+          CustomToast.errorToast("Error", "Account not found");
         } else if (e.code == 'wrong-password') {
-          Get.snackbar(
-            "Terjadi Kesalahan",
-            "Password salah",
-          );
+          CustomToast.errorToast("Error", "Wrong Password");
         }
       } catch (e) {
-        Get.snackbar(
-          "Terjadi Kesalahan",
-          "Tidak dapat login",
-        );
+        CustomToast.errorToast("Error", "Error because : ${e.toString()}");
       }
     } else {
-      Get.snackbar(
-        "Terjadi Kesalahan",
-        "Email dan Password wajib diisi.",
-      );
+      CustomToast.errorToast("Error", "You need to fill email and password form");
     }
   }
 }
