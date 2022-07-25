@@ -7,6 +7,7 @@ environment:
 
 dependencies:
   cloud_firestore: 3.4.0
+  connectivity_plus: ^2.3.6
   convex_bottom_bar: 3.0.0
   cupertino_icons: ^1.0.2
   firebase_auth: 3.5.0
@@ -24,6 +25,7 @@ dependencies:
   syncfusion_flutter_datepicker: ^20.1.51
 
 dev_dependencies:
+  flutter_launcher_icons: ^0.9.3
   flutter_lints: ^1.0.0
   flutter_test:
     sdk: flutter

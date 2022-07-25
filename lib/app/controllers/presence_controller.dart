@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:go_absensi/app/utils/connectivity_checker.dart';
 import 'package:intl/intl.dart';
 import 'package:go_absensi/app/widgets/dialog/custom_alert_dialog.dart';
 import 'package:go_absensi/app/widgets/toast/custom_toast.dart';
@@ -15,34 +16,39 @@ class PresenceController extends GetxController {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   void presence() async {
-    isLoading.value = true;
-    Map<String, dynamic> determinePosition = await _determinePosition();
+    if (await ConnectivityChecker.checkConnection()) {
+      isLoading.value = true;
+      Map<String, dynamic> determinePosition = await _determinePosition();
 
-    if (!determinePosition["error"]) {
-      Position position = determinePosition["position"];
-      List<Placemark> placemarks = await placemarkFromCoordinates(
-        position.latitude, 
-        position.longitude,
-      );
-      String address = "${placemarks.first.street}, ${placemarks.first.subLocality}, ${placemarks.first.locality}";
-      double distance = Geolocator.distanceBetween(
-        CompanyData.office['latitude'], 
-        CompanyData.office['longitude'], 
-        position.latitude, 
-        position.longitude,
-      );
+      if (!determinePosition["error"]) {
+        Position position = determinePosition["position"];
+        List<Placemark> placemarks = await placemarkFromCoordinates(
+          position.latitude, 
+          position.longitude,
+        );
+        String address = "${placemarks.first.street}, ${placemarks.first.subLocality}, ${placemarks.first.locality}";
+        double distance = Geolocator.distanceBetween(
+          CompanyData.office['latitude'], 
+          CompanyData.office['longitude'], 
+          position.latitude, 
+          position.longitude,
+        );
 
-      // update position ( store to database )
-      await updatePosition(position, address);
-      // presence ( store to database )
-      await processPresence(position, address, distance);
+        // update position ( store to database )
+        await updatePosition(position, address);
+        // presence ( store to database )
+        await processPresence(position, address, distance);
 
-      isLoading.value = false;
+        isLoading.value = false;
+      } else {
+        isLoading.value = false;
+        
+        Get.snackbar("Terjadi kesalahan", determinePosition["message"]);
+        print(determinePosition["error"]);
+      }
     } else {
+      CustomToast.errorToast("Error", "Please enable celular data or wifi");
       isLoading.value = false;
-      
-      Get.snackbar("Terjadi kesalahan", determinePosition["message"]);
-      print(determinePosition["error"]);
     }
   }
 

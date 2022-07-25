@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_absensi/app/controllers/page_index_controller.dart';
 import 'package:go_absensi/app/routes/app_pages.dart';
+import 'package:go_absensi/app/utils/connectivity_checker.dart';
 import 'package:go_absensi/app/widgets/dialog/custom_alert_dialog.dart';
 import 'package:go_absensi/app/widgets/toast/custom_toast.dart';
 
@@ -28,34 +29,39 @@ class LoginController extends GetxController {
     if (emailC.text.isNotEmpty && passC.text.isNotEmpty) {
       isLoading.value = true;
       try {
-        final credential = await auth.signInWithEmailAndPassword(
-          email: emailC.text.trim(),
-          password: passC.text,
-        );
+        if (await ConnectivityChecker.checkConnection()) {
+          final credential = await auth.signInWithEmailAndPassword(
+            email: emailC.text.trim(),
+            password: passC.text,
+          );
 
-        if (credential.user != null) {
-          if (credential.user!.emailVerified) {
-            isLoading.value = false;
-            checkDefaultPassword();
-          } else {
-            CustomAlertDialog.showPresenceAlert(
-              title: "Email not yet verified",
-              message: "Are you want to send email verification?",
-              onCancel: () => Get.back(),
-              onConfirm: () async {
-                try {
-                  await credential.user!.sendEmailVerification();
-                  Get.back();
-                  CustomToast.successToast("Success", "We've send email verification to your email");
-                  isLoading.value = false;
-                } catch (e) {
-                  CustomToast.errorToast("Error", "Cant send email verification. Error because : ${e.toString()}");
-                }
-              },
-            );
+          if (credential.user != null) {
+            if (credential.user!.emailVerified) {
+              isLoading.value = false;
+              checkDefaultPassword();
+            } else {
+              CustomAlertDialog.showPresenceAlert(
+                title: "Email not yet verified",
+                message: "Are you want to send email verification?",
+                onCancel: () => Get.back(),
+                onConfirm: () async {
+                  try {
+                    await credential.user!.sendEmailVerification();
+                    Get.back();
+                    CustomToast.successToast("Success", "We've send email verification to your email");
+                    isLoading.value = false;
+                  } catch (e) {
+                    CustomToast.errorToast("Error", "Cant send email verification. Error because : ${e.toString()}");
+                  }
+                },
+              );
+            }
           }
+          isLoading.value = false;
+        } else {
+          CustomToast.errorToast("Error", "Please enable celular data or wifi");
+          isLoading.value = false;
         }
-        isLoading.value = false;
       } on FirebaseAuthException catch (e) {
         isLoading.value = false;
         if (e.code == 'user-not-found') {
