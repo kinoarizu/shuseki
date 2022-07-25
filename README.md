@@ -1,39 +1,64 @@
-# GoAbsensi [Maintenance Mode]
+# Go Absensi
 
-[![Fork](https://img.shields.io/github/forks/abuazis/GoAbsensi?style=social)](https://github.com/abuazis/GoAbsensi/fork)&nbsp; [![Star](https://img.shields.io/github/stars/abuazis/GoAbsensi?style=social)](https://github.com/abuazis/GoAbsensi/star)&nbsp; [![Watches](https://img.shields.io/github/watchers/abuazis/GoAbsensi?style=social)](https://github.com/abuazis/GoAbsensi/)&nbsp;
+## Introduction
 
-> Modern Presence App
+Go Absesi integrated with geolocation (GPS) that can help your company or you as a developer to build a presence app. beauty user interface and have a multi user ( admin and employee ). You can also change the appearance of this application easily or add new features. Using Getx and Firebase.
 
-## Description
-GoAbsensi adalah aplikasi presensi yang digunakan siswa / karyawan untuk melakukan absensi harian secara digital. Terdapat beberapa keamanan yang memperkuat akurasi data sehingga pengguna tidak bisa melakukan tindakan kecurangan.
+**Admin Login**
 
-<!-- ## Demo
-Get GoAbsensi on PlayStore <a href="https://play.google.com/store/apps/details?id=com.abuaziz.go_absensi">https://play.google.com/store/apps/details?id=com.abuaziz.go_absensi</a>
+Email : abuaziscorp@gmail.com
+Password : 123456789
 
-<p><img  src="https://i.ibb.co/C8L3HSv/Go-Absensi-Feature-Graphic.png"/></p> -->
+**Employee Login** :
 
-## Security Features
+Email : muhammadazis801@gmail.com
+Password : 123456789
 
-- Geofencing System - Memastikan lokasi user berada di radius kantor
-- Anti Fake GPS System - Melakukan validasi terhadap kecurangan Fake GPS
-- Disable Multi Device - Melakukan verifikasi dengan IMEI agar sebuah akun hanya terdaftar pada satu device saja
-- Present Validation - Memastikan user melakukan presensi masuk dan pulang di jam yang sudah ditentukan dan tidak bisa menggunakan kecurangan mengatur jam device sesuai - keinginan untuk presensi di hari mendatang
 
-## Installing
 
-- git clone https://github.com/abuazis/GoAbsensi.git
-- flutter packages get
-- flutter run
+## Installation
 
-<!-- ## Release History
+**Step 1:**
 
-- 1.0.0+1
-  - CHANGE: APK release -->
+Download or clone this repo by using the link below and do flutter pub get.
 
-## Credit
+```
+https://github.com/abuazis/GoAbsensi
+cd flutter_presence
+flutter pub get
+```
 
-Abu Azis – [@abuzaio](https://instagram.com/abuzaio) – abuaziscorp@gmail.com
+**Step 2:**
 
-Distributed under the MIT license. See `LICENSE` for more information.
+Rename the app package name ( because this can affect the firebase ) . You can do it manually or using this package <a href="https://pub.dev/packages/rename">Rename Package</a> or look at this <a href="https://stackoverflow.com/questions/51534616/how-to-change-package-name-in-flutter">Stackoverflow Question</a>
 
-[https://github.com/abuazis](https://github.com/abuazis/)
+**Step 3:**
+
+Re init the firebase cli. <a href="https://firebase.google.com/docs/flutter/setup">See Documentation</a>
+
+**Step 4:**
+
+Enable firebase email/password authentication
+
+**Step 5:**
+
+Create Firestore Database
+
+**Step 6:**
+
+This time, we will set up the database and admin account. The first thing that you need to do is add user at firebase console authentication menu
+<br><img src="https://github.com/mrezkys/flutter_presence/blob/main/demo/tutor/step 1.JPG" width="400" height="auto" ><br>
+copy the User UID. Next, you need to start a collection like this : *use the User UID as Document id
+<br><img src="https://github.com/mrezkys/flutter_presence/blob/main/demo/tutor/step 2.JPG" width="400" height="auto" ><br>
+role is the important field, in this application there are 2 role ( admin and employee ). Also, the created_at field is using Iso8601String, but you can use this dummy date
+```
+2022-05-10T12:34:58.274129
+```
+
+**Step 7:**
+
+Run the flutter app
+
+**Step 8:**
+
+Change the company data at lib/company_data.dart
