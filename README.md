@@ -23,7 +23,7 @@ Password : 123456789
 Download or clone this repo by using the link below and do flutter pub get.
 
 ```
-https://github.com/abuazis/GoAbsensi
+https://github.com/abuzaio/GoAbsensi
 cd flutter_presence
 flutter pub get
 ```

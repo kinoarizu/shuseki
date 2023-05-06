@@ -41,7 +41,7 @@ class LoginView extends GetView<LoginController> {
                 ),
                 SizedBox(height: 10),
                 Text(
-                  "by github.com/abuazis",
+                  "by github.com/abuzaio",
                   style: TextStyle(color: Colors.white),
                 ),
               ],
@@ -161,9 +161,9 @@ class LoginView extends GetView<LoginController> {
                         ),
                       ),
                       style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.symmetric(vertical: 18),
+                        padding: EdgeInsets.symmetric(vertical: 18), 
+                        backgroundColor: AppColor.primary,
                         elevation: 0,
-                        primary: AppColor.primary,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
@@ -179,7 +179,7 @@ class LoginView extends GetView<LoginController> {
                     onPressed: () => Get.toNamed(Routes.FORGOT_PASSWORD),
                     child: Text("Forgot your password?"),
                     style: TextButton.styleFrom(
-                      primary: AppColor.secondarySoft,
+                      foregroundColor: AppColor.secondarySoft,
                     ),
                   ),
                 ),

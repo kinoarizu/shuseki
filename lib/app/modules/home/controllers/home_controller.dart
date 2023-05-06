@@ -41,8 +41,8 @@ class HomeController extends GetxController {
   }
 
   Future<String> getDistanceToOffice() async {
-    print('calleeeed');
     Map<String, dynamic> determinePosition = await _determinePosition();
+    
     if (!determinePosition["error"]) {
       Position position = determinePosition["position"];
       double distance = Geolocator.distanceBetween(CompanyData.office['latitude'], CompanyData.office['longitude'], position.latitude, position.longitude);
@@ -71,7 +71,7 @@ class HomeController extends GetxController {
         message: 'you need to turn on gps',
         duration: Duration(seconds: 3),
       );
-      return Future.error('Location services are disabled.');
+      // return Future.error('Location services are disabled.');
     }
 
     permission = await Geolocator.checkPermission();

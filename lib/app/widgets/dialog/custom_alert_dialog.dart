@@ -63,10 +63,10 @@ class CustomAlertDialog {
                       style: TextStyle(color: AppColor.secondarySoft),
                     ),
                     style: ElevatedButton.styleFrom(
+                      foregroundColor: AppColor.primary, 
+                      backgroundColor: AppColor.primaryExtraSoft, 
                       padding: EdgeInsets.symmetric(vertical: 12),
-                      primary: AppColor.primaryExtraSoft,
                       elevation: 0,
-                      onPrimary: AppColor.primary,
                     ),
                   ),
                 ),
@@ -77,7 +77,7 @@ class CustomAlertDialog {
                     onPressed: onConfirm,
                     child: Text("confirm"),
                     style: ElevatedButton.styleFrom(
-                      primary: AppColor.primary,
+                      backgroundColor: AppColor.primary,
                       padding: EdgeInsets.symmetric(vertical: 12),
                       elevation: 0,
                     ),
@@ -142,10 +142,10 @@ class CustomAlertDialog {
                       style: TextStyle(color: AppColor.secondarySoft),
                     ),
                     style: ElevatedButton.styleFrom(
+                      foregroundColor: AppColor.primary, 
+                      backgroundColor: AppColor.primaryExtraSoft, 
                       padding: EdgeInsets.symmetric(vertical: 12),
-                      primary: AppColor.primaryExtraSoft,
                       elevation: 0,
-                      onPrimary: AppColor.primary,
                     ),
                   ),
                 ),
@@ -156,7 +156,7 @@ class CustomAlertDialog {
                     onPressed: onConfirm,
                     child: Text("confirm"),
                     style: ElevatedButton.styleFrom(
-                      primary: AppColor.primary,
+                      backgroundColor: AppColor.primary,
                       padding: EdgeInsets.symmetric(vertical: 12),
                       elevation: 0,
                     ),

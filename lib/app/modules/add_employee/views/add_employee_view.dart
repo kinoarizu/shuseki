@@ -78,7 +78,7 @@ class AddEmployeeView extends GetView<AddEmployeeController> {
                   ),
                 ),
                 style: ElevatedButton.styleFrom(
-                  primary: AppColor.primary,
+                  backgroundColor: AppColor.primary,
                   padding: EdgeInsets.symmetric(vertical: 18),
                   elevation: 0,
                   shape: RoundedRectangleBorder(

@@ -23,10 +23,11 @@ class HomeView extends GetView<HomeController> {
               case ConnectionState.active:
               case ConnectionState.done:
                 Map<String, dynamic> user = snapshot.data!.data()!;
+
                 return ListView(
                   shrinkWrap: true,
                   physics: BouncingScrollPhysics(),
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 36),
+                  padding: EdgeInsets.fromLTRB(20, 36, 20, 100),
                   children: [
                     SizedBox(height: 16),
                     // Section 1 - Welcome Back
@@ -178,7 +179,7 @@ class HomeView extends GetView<HomeController> {
                             onPressed: () => Get.toNamed(Routes.ALL_PRESENCE),
                             child: Text("Show All"),
                             style: TextButton.styleFrom(
-                              primary: AppColor.primary,
+                              foregroundColor: AppColor.primary,
                             ),
                           ),
                         ],
