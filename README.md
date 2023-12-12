@@ -12,7 +12,7 @@ Shuseki integrated with geolocation (GPS) that can help your company or you as a
 Download or clone this repo by using the link below and do flutter pub get.
 
 ```
-https://github.com/abuzaio/GoAbsensi
+https://github.com/kinoarizu/GoAbsensi
 cd flutter_presence
 flutter pub get
 ```

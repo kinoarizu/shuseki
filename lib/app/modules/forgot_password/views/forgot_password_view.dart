@@ -38,27 +38,6 @@ class ForgotPasswordView extends GetView<ForgotPasswordController> {
                 fit: BoxFit.cover,
               ),
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Open Source\nPresence App",
-                  style: TextStyle(
-                    fontSize: 28,
-                    color: Colors.white,
-                    fontFamily: 'poppins',
-                    height: 150 / 100,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                SizedBox(height: 10),
-                Text(
-                  "by github.com/abuzaio",
-                  style: TextStyle(color: Colors.white),
-                ),
-              ],
-            ),
           ),
           Container(
             height: MediaQuery.of(context).size.height * 65 / 100,
