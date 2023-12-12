@@ -1,4 +1,4 @@
-package com.abuzaio.go_absensi
+package com.kinoarizu.go_absensi
 
 import io.flutter.embedding.android.FlutterActivity
 
